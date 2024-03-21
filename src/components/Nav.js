@@ -1,7 +1,130 @@
 import { NavLink, useLocation } from "react-router-dom";
 import Logo from "../img/logo.svg";
+import { Menu, X } from "lucide-react";
+import { useState } from "react";
+
+
 export function Nav(){
+
     const location = useLocation();
+    const DesktopItems = () =>{
+        return(
+            <>
+      <ul className="gap-8 hidden mx:flex">
+                        <li>
+                            <NavLink
+                                to="/corpus-cuvinte"
+                                className={
+                                    location.pathname === "/corpus-cuvinte" 
+                                    ? "text-white font-Padauk text-sm uppercase"
+                                    : "text-[#ffffffb6] font-Padauk text-sm uppercase"
+                                }
+                            >
+                                Corpus de cuvinte
+                            </NavLink>
+                        </li>
+                        <li>
+                            <NavLink
+                                to="/corpus-morfologie"
+                                className={
+                                    location.pathname === "/corpus-morfologie" 
+                                    ? "text-white font-Padauk text-sm uppercase"
+                                    : "text-[#ffffffb6] font-Padauk text-sm uppercase"
+                                }
+                            >
+                                Corpus de morfologie
+                            </NavLink>
+                        </li>
+                        <li>
+                            <NavLink
+                                to="/about"
+                                className={
+                                    location.pathname === "/about" 
+                                    ? "text-white font-Padauk text-sm uppercase"
+                                    : "text-[#ffffffb6] font-Padauk text-sm uppercase"
+                                }
+                            >
+                                Despre corpus
+                            </NavLink>
+                        </li>
+                        <li>
+                            <NavLink
+                                to="/contact"
+                                className={
+                                    location.pathname === "/contact" 
+                                    ? "text-white font-Padauk text-sm uppercase"
+                                    : "text-[#ffffffb6] font-Padauk text-sm uppercase"
+                                }
+                            >
+                                Contacte
+                            </NavLink>
+                        </li>
+                    </ul>
+            </>
+        )
+    }
+
+    const MobileItems = () =>{
+        return(
+            <>
+            <ul className="gap-2 mx:hidden absolute top-16 flex flex-col items-start px-5 py-2 bg-gradient-to-t from-[#1c2225] to-[#101416] w-full shadow-lg">
+                    <li>
+                            <NavLink
+                                to="/corpus-cuvinte"
+                                className={
+                                    location.pathname === "/corpus-cuvinte" 
+                                    ? "text-white font-Padauk text-base uppercase"
+                                    : "text-[#ffffffb6] font-Padauk text-base uppercase"
+                                }
+                            >
+                                Corpus de cuvinte
+                            </NavLink>
+                        </li>
+                        <li>
+                            <NavLink
+                                to="/corpus-morfologie"
+                                className={
+                                    location.pathname === "/corpus-morfologie" 
+                                    ? "text-white font-Padauk text-base uppercase"
+                                    : "text-[#ffffffb6] font-Padauk text-base uppercase"
+                                }
+                            >
+                                Corpus de morfologie
+                            </NavLink>
+                        </li>
+                        <li>
+                            <NavLink
+                                to="/about"
+                                className={
+                                    location.pathname === "/about" 
+                                    ? "text-white font-Padauk text-base uppercase"
+                                    : "text-[#ffffffb6] font-Padauk text-base uppercase"
+                                }
+                            >
+                                Despre corpus
+                            </NavLink>
+                        </li>
+                        <li>
+                            <NavLink
+                                to="/contact"
+                                className={
+                                    location.pathname === "/contact" 
+                                    ? "text-white font-Padauk text-base uppercase"
+                                    : "text-[#ffffffb6] font-Padauk text-base uppercase"
+                                }
+                            >
+                                Contacte
+                            </NavLink>
+                        </li>
+                    </ul>
+            </>
+        )
+    }
+    const [isOpen, setIsOpen] = useState(false);
+
+    const toggleNavbar = () => {
+      setIsOpen(!isOpen);
+    };
     return(
         <>
             <nav className="abosolute top-0 left-0 w-full h-16 flex items-center justify-between bg-[#101416] px-5">
@@ -13,66 +136,30 @@ export function Nav(){
                     <img src={Logo} alt="Logo RoDia" width={114} height={24}/>
                 </div>
                 </NavLink>
-                <ul className=" gap-8 hidden mx:flex">
-                    <li>
+                <DesktopItems />
+                <div className="flex gap-3 items-center">
+                    <div>
                         <NavLink
-                            to="/corpus-cuvinte"
-                            className={
-                                location.pathname === "/corpus-cuvinte" 
-                                ? "text-white font-Padauk text-sm uppercase"
-                                : "text-[#ffffffb6] font-Padauk text-sm uppercase"
-                            }
-                        >
-                            Corpus de cuvinte
+                                to="/login"
+                                className="text-white font-Padauk text-base font-bold leading-none uppercase px-3 py-1 rounded bg-[#7D33FF]"
+                                >
+                                Logare
                         </NavLink>
-                    </li>
-                    <li>
-                        <NavLink
-                            to="/corpus-morfologie"
-                            className={
-                                location.pathname === "/corpus-morfologie" 
-                                ? "text-white font-Padauk text-sm uppercase"
-                                : "text-[#ffffffb6] font-Padauk text-sm uppercase"
-                            }
-                        >
-                            Corpus de morfologie
-                        </NavLink>
-                    </li>
-                    <li>
-                        <NavLink
-                            to="/about"
-                            className={
-                                location.pathname === "/about" 
-                                ? "text-white font-Padauk text-sm uppercase"
-                                : "text-[#ffffffb6] font-Padauk text-sm uppercase"
-                            }
-                        >
-                            Despre corpus
-                        </NavLink>
-                    </li>
-                    <li>
-                        <NavLink
-                            to="/contact"
-                            className={
-                                location.pathname === "/contact" 
-                                ? "text-white font-Padauk text-sm uppercase"
-                                : "text-[#ffffffb6] font-Padauk text-sm uppercase"
-                            }
-                        >
-                            Contacte
-                        </NavLink>
-                    </li>
-                </ul>
+                    </div>
+                    <div>
+                        <button className="mx:hidden block" onClick={toggleNavbar}>
+                            {isOpen ? (
+                                <X className="w-[36px] h-[36px] text-white" />
+                            ) : (
+                                <Menu className="w-[36px] h-[36px] text-white" />
+                            )}
+                        </button>
+                    </div>
+                   
 
-                <div className="">
-                    <NavLink
-                            to="/login"
-                            className="text-white font-Padauk text-base font-bold leading-none uppercase px-3 py-1 rounded bg-[#7D33FF]"
-                            >
-                            Logare
-                    </NavLink>
                 </div>
             </nav>
+            {isOpen && <MobileItems />}
         </>
     )
 }
