@@ -1,15 +1,13 @@
-// import { Search } from "./components/Search";
-// import { SearchTag } from "./components/SearchTag";
 import { Nav } from "./components/Nav";
 import { Home } from "./components/pages/Home";
 import { CorpusCuvinte } from "./components/pages/CorpusCuvinte";
 import { CorpusMorlfologic } from "./components/pages/CorpusMorlfologic";
-
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-
+import  { Page404 } from "./components/pages/Page404";
+import { Footer } from "./components/Footer";
 function App() {
   return (
-    <div className="App flex flex-col bg-gradient-to-t from-[#1c2225] to-[#101416]">
+    <div className="App flex h-full flex-col bg-gradient-to-t from-[#1c2225] to-[#101416]">
     <Router>
       <Nav />
       <main className="min-h-screen">
@@ -18,10 +16,10 @@ function App() {
           <Route path="/corpus-cuvinte" element={<CorpusCuvinte />} />
           <Route path="/corpus-morfologie" element={<CorpusMorlfologic />} />
 
-          {/* <Route path="/*" nelement={<Page404 />} /> */}
+          <Route path="/*" element={<Page404 />} />
         </Routes>
       </main>
-      {/* <Footer /> */}
+      <Footer />
     </Router>
   </div>
   );
