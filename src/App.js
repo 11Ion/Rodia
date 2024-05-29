@@ -5,6 +5,12 @@ import { CorpusMorlfologic } from "./components/pages/CorpusMorlfologic";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import  { Page404 } from "./components/pages/Page404";
 import { Footer } from "./components/Footer";
+import Login from './components/pages/Login';
+import Register from './components/pages/Register';
+import About from "./components/pages/About";
+import Contact from "./components/pages/Contact";
+import ProtectedUser from "./components/LoginPages/ProtectedUser";
+
 function App() {
   return (
     <div className="App flex h-full flex-col bg-gradient-to-t from-[#1c2225] to-[#101416]">
@@ -13,9 +19,12 @@ function App() {
       <main className="min-h-screen">
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/corpus-cuvinte" element={<CorpusCuvinte />} />
-          <Route path="/corpus-morfologie" element={<CorpusMorlfologic />} />
-
+          <Route path="/corpus-cuvinte" element={<ProtectedUser Component={CorpusCuvinte} />} />   
+          <Route path="/corpus-morfologie" element={<ProtectedUser Component={CorpusMorlfologic} />} />  
+          <Route path="/login" element={<Login />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/contact" element={<Contact />} />
+          <Route path="/register" element={<Register />} />
           <Route path="/*" element={<Page404 />} />
         </Routes>
       </main>

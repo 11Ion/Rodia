@@ -6,7 +6,7 @@ import { BasicSearchResult } from "./BasicSearchResult";
 
 export function BasicSearch(){    
 
-    const [error, setError] = useState();
+    const [error, setError] = useState('');
     const [value, setValue] = useState('');
     const [loading, setLoading] = useState(false);
     const [searchResults, setSearchResults] = useState([]); 
@@ -19,39 +19,43 @@ export function BasicSearch(){
         const forbiddenSymbolsRegex = /<[^>]*>|<\/[^>]*>/;
         
         if (!value || value.trim().length === 0) {
-            setError('Please enter a valid word');
+            setError('Vă rugăm să introduceți un cuvânt valid');
             setLoading(false);
             setSearchResults([]); 
             return;
         }
         if (value.length > 5000) {
-            setError('Input length exceeds maximum allowed length');
+            setError('Lungimea de intrare depășește lungimea maximă permisă');
             setLoading(false);
             setSearchResults([]); 
             return;
         }
         if (forbiddenSymbolsRegex.test(value)) {
-            setError('Input contains forbidden symbols');
+            setError('Intrarea conține simboluri interzise');
             setLoading(false);
             setSearchResults([]); 
             return;
         }
-        try{
-            const LoadData = UploadData();
-            const response = []; 
-           
-            LoadData.forEach(data => {
-                const dataResults = SearchFunction(data, value);
-                response.push(...dataResults);   
-            });
+
+        try {
+            const loadedData = await UploadData();
+            const response = [];
+            if(loadedData){
+                loadedData.forEach(data => {
+                    const dataResults = SearchFunction(data, value);
+                    response.push(...dataResults);
+                });
+            }
+          
             setSearchResults(response);
-            if(response.length === 0){
-                setError('Not found');
+            if (response.length === 0) {
+                setError('Nu au fost găsite rezultate');
             }
     
-         } catch(error){
-            setError('Error loading data');
-         } finally {
+        } catch (error) {
+            setError('Eroare la încărcarea datelor, încercați mai târziu');
+            console.error('Error in submitHandler:', error);
+        } finally {
             setLoading(false);
         }
     }
@@ -63,12 +67,13 @@ export function BasicSearch(){
                 Căutare simplă
             </p>
             <form 
-                className="flex flex-col gap-4 justify-between max-w-[400px] s:flex-row"
+                className="flex flex-col gap-4 justify-between max-w-[400px] "
                 onSubmit={submitHandler}
             >   
                 <input
+
                     type="text"
-                    className="w-full s:w-56 h-8 pl-1 rounded outline-0 focus:ring-2 focus:ring-[#7e33ff88] font-roboto"
+                    className="w-full  h-8 pl-1  placeholder:text-gray-400 placeholder:font-light focus:placeholder:text-gray-300 border sm:text-sm rounded focus:outline-none bg-transparent border-white placeholder-gray-400 text-white focus:ring-[#7d33ff] focus:border-[#7d33ff] font-roboto"
                     value={value}
                     placeholder="Introdu cuvântul..."
                     onChange={event => setValue(event.target.value)}
@@ -76,16 +81,16 @@ export function BasicSearch(){
                 />
                 <button 
                     type="submit"
-                    className="text-white text-roboto font-bold text-base bg-[#34353a] rounded s:w-56 w-full h-8  hover:bg-[#7d33ff] hover:transition-[0.3s]"
+                    className="text-white text-roboto font-bold text-base bg-[#34353a] rounded  w-full h-8  hover:bg-[#7d33ff] hover:transition-[0.3s]"
                 >
                     Caută
                 </button>
-                
+                <div className="w-full">
+                    <ErrorMsg error={error} />
+                 </div>
             </form>
 
-            <div className="w-full max-w-[500px] mt-4">
-                <ErrorMsg error={error} />
-            </div>
+           
             {searchResults.length > 0 && (
             <>
 

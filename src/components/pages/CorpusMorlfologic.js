@@ -1,5 +1,6 @@
 
 import { SearchTag } from "../SearchTag";
+document.title = 'Căutare | RoDia';
 
 export function CorpusMorlfologic(){
     return(
@@ -11,7 +12,7 @@ export function CorpusMorlfologic(){
                         
                         <div className="bg-[#34353a] rounded">
                             <h1 className="text-white font-Padauk leading-5 text-xl py-4 text-center">
-                                CORPUS DE MORFOLOGIE
+                                CAUTARE DE MORFOLOGIE
                             </h1>
                         </div>
                        

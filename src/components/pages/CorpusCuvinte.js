@@ -1,7 +1,6 @@
 
 import { Search } from "../Search";
-document.title = 'Corpus Cuvinte';
-
+document.title = 'Căutare | RoDia';
 export function CorpusCuvinte(){
     return(
         <>
@@ -12,7 +11,7 @@ export function CorpusCuvinte(){
                         
                         <div className="bg-[#34353a] rounded">
                             <h1 className="text-white font-Padauk leading-5 text-xl py-4 text-center">
-                                CORPUS DE CUVINTE
+                                CAUTARE DE CUVINTE
                             </h1>
                         </div>
                        

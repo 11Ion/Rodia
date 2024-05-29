@@ -34,7 +34,7 @@ const data_tags = {
 export function SearchTagsAdvancedFuntion(data, searchWord, option, optionAdvanced) {
     const response = [];
 
-    data.treebank.sentence.forEach((sentence) => {
+    data.content.treebank.sentence.forEach((sentence) => {
         sentence.word.forEach((word) => {
            
             if(optionAdvanced === "All"){
@@ -42,7 +42,7 @@ export function SearchTagsAdvancedFuntion(data, searchWord, option, optionAdvanc
                     const optionTags = optionMapping[option];
                     const optionTagF = data_tags[option];
                     if (optionTags.some(tag => word._postag.toLowerCase() === (tag.toLowerCase()))) {
-                        response.push({searchWord, sentence, optionTagF, _id: data.treebank._id, optionAdvanced, option});
+                        response.push({searchWord, sentence, optionTagF, _id: data.content.treebank._id, optionAdvanced, option});
                     }
                 }   
             }
@@ -51,7 +51,7 @@ export function SearchTagsAdvancedFuntion(data, searchWord, option, optionAdvanc
                     const optionTags = optionMapping[option];
                     const optionTagF = data_tags[option];
                     if (optionTags.some(tag => word._postag.toLowerCase() === (tag.toLowerCase()))) {
-                        response.push({searchWord, sentence, optionTagF, _id: data.treebank._id, optionAdvanced, option});
+                        response.push({searchWord, sentence, optionTagF, _id: data.content.treebank._id, optionAdvanced, option});
                     }
                 }   
             }
@@ -60,7 +60,7 @@ export function SearchTagsAdvancedFuntion(data, searchWord, option, optionAdvanc
                     const optionTags = optionMapping[option];
                     const optionTagF = data_tags[option];
                     if (optionTags.some(tag => word._postag.toLowerCase() === (tag.toLowerCase()))) {
-                        response.push({searchWord, sentence, optionTagF, _id: data.treebank._id, optionAdvanced, option});
+                        response.push({searchWord, sentence, optionTagF, _id: data.content.treebank._id, optionAdvanced, option});
                     }
                 }   
             }
@@ -69,7 +69,7 @@ export function SearchTagsAdvancedFuntion(data, searchWord, option, optionAdvanc
                     const optionTags = optionMapping[option];
                     const optionTagF = data_tags[option];
                     if (optionTags.some(tag => word._postag.toLowerCase() === (tag.toLowerCase()))) {
-                        response.push({searchWord, sentence, optionTagF, _id: data.treebank._id, optionAdvanced, option});
+                        response.push({searchWord, sentence, optionTagF, _id: data.content.treebank._id, optionAdvanced, option});
                     }
                 }   
             }
@@ -83,21 +83,21 @@ export function SearchTagsBasicFunction(data, searchWord, option) {
 
     const response = []
 
-    data.treebank.sentence.forEach((sentence) => {
+    data.content.treebank.sentence.forEach((sentence) => {
         sentence.word.forEach((word) => {
             if (searchWord) {
                 if (word._form.toLowerCase().includes(searchWord.toLowerCase())) {
                     const optionTags = optionMapping[option];
                     const optionTagF = data_tags[option];
                     if (optionTags.some(tag => word._postag.toLowerCase() === (tag.toLowerCase()))) {
-                        response.push({searchWord, option, optionTagF, sentence, _id: data.treebank._id});
+                        response.push({searchWord, option, optionTagF, sentence, _id: data.content.treebank._id});
                     }
                 }   
             } else {
                     const optionTags = optionMapping[option];
                     const optionTagF = data_tags[option];
                     if (optionTags.some(tag => word._postag.toLowerCase() === (tag.toLowerCase()))) {
-                        response.push({optionTagF, option, sentence, _id: data.treebank._id});
+                        response.push({optionTagF, option, sentence, _id: data.content.treebank._id});
                     }
             }
         });

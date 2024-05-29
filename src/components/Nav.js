@@ -1,4 +1,4 @@
-import { NavLink, useLocation } from "react-router-dom";
+import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import Logo from "../img/logo.svg";
 import { Menu, X } from "lucide-react";
 import { useState } from "react";
@@ -6,11 +6,20 @@ import { useState } from "react";
 
 export function Nav(){
 
+
+    const naviget = useNavigate();
+
+    function logoutSubmit(){
+        localStorage.setItem("login", "");
+        naviget("/");
+    }
+    const isLoggedIn = localStorage.getItem("login") === "true";
+
     const location = useLocation();
     const DesktopItems = () =>{
         return(
             <>
-      <ul className="gap-8 hidden mx:flex">
+                <ul className="gap-8 hidden mx:flex">
                         <li>
                             <NavLink
                                 to="/corpus-cuvinte"
@@ -20,7 +29,7 @@ export function Nav(){
                                     : "text-[#ffffffb6] font-Padauk text-sm uppercase"
                                 }
                             >
-                                Corpus de cuvinte
+                                Cautare de cuvinte
                             </NavLink>
                         </li>
                         <li>
@@ -32,7 +41,7 @@ export function Nav(){
                                     : "text-[#ffffffb6] font-Padauk text-sm uppercase"
                                 }
                             >
-                                Corpus de morfologie
+                                Cautare de morfologie
                             </NavLink>
                         </li>
                         <li>
@@ -77,7 +86,7 @@ export function Nav(){
                                     : "text-[#ffffffb6] font-Padauk text-base uppercase"
                                 }
                             >
-                                Corpus de cuvinte
+                                Cautare de cuvinte
                             </NavLink>
                         </li>
                         <li>
@@ -89,7 +98,7 @@ export function Nav(){
                                     : "text-[#ffffffb6] font-Padauk text-base uppercase"
                                 }
                             >
-                                Corpus de morfologie
+                                Cautare de morfologie
                             </NavLink>
                         </li>
                         <li>
@@ -139,12 +148,21 @@ export function Nav(){
                 <DesktopItems />
                 <div className="flex gap-3 items-center">
                     <div>
-                        <NavLink
-                                to="/login"
-                                className="text-white font-Padauk text-base font-bold leading-none uppercase px-3 py-1 rounded bg-[#7D33FF]"
-                                >
-                                Logare
-                        </NavLink>
+                    {isLoggedIn ? (
+                <button
+                className="text-white font-Padauk text-base font-bold leading-none flex items-center  px-3 h-8 rounded bg-[#7D33FF]"
+                onClick={logoutSubmit}
+                >
+                    Deconectare
+                </button>
+            ) : (
+                <NavLink
+                    to="/login"
+                    className="text-white font-Padauk text-base font-bold leading-none flex items-center  px-3 h-8 rounded bg-[#7D33FF]"
+                >
+                    Conectare
+                </NavLink>
+            )}
                     </div>
                     <div>
                         <button className="mx:hidden block" onClick={toggleNavbar}>

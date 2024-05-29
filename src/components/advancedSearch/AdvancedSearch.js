@@ -1,14 +1,14 @@
-import { useState } from "react";
-import { ErrorMsg } from "../ErrorMsg";
-import { UploadData } from "../uploadData/UploadData";
-import { SearchFunction } from "../basicSearch/SearchFunction";
-import { BasicSearchResult } from "../basicSearch/BasicSearchResult";
-import { SearchLemmaFunction } from "./SearchLemmaFunction";
-import { SearchLemmaResult } from "./SearchLemmaResult";
-import { SearchPhraseFunction } from "./SearchPhraseFunction";
-import { SearchPhraseResult } from "./SearchPhraseResult";
-import { SearchCharFunction } from "./SearchCharFunction";
-import { SearchCharResult } from "./SearchCharResult";
+import React, { useState } from 'react';
+import { ErrorMsg } from '../ErrorMsg';
+import { UploadData } from '../uploadData/UploadData';
+import { SearchFunction } from '../basicSearch/SearchFunction';
+import { BasicSearchResult } from '../basicSearch/BasicSearchResult';
+import { SearchLemmaFunction } from './SearchLemmaFunction';
+import { SearchLemmaResult } from './SearchLemmaResult';
+import { SearchPhraseFunction } from './SearchPhraseFunction';
+import { SearchPhraseResult } from './SearchPhraseResult';
+import { SearchCharFunction } from './SearchCharFunction';
+import { SearchCharResult } from './SearchCharResult';
 
 export function AdvancedSearch() {
     const [error, setError] = useState('');
@@ -19,25 +19,30 @@ export function AdvancedSearch() {
 
     const handleSearch = async (searchFunc) => {
         try {
-            const loadData = UploadData();
-            const response = [];
+            setLoading(true); // Începe încărcarea
             
-            loadData.forEach(data => {
+            const loadedData = await UploadData(); // Așteaptă încărcarea datelor
+            
+            const response = loadedData.reduce((acc, data) => {
                 const dataResults = searchFunc(data, value);
-                    response.push(...dataResults);
-            }); 
+                return [...acc, ...dataResults];
+            }, []);
 
             setSearchResults(response);
+            
             if (response.length === 0) {
-                setError('Not found');
+                setError('Nu au fost găsite rezultate');
+            } else {
+                setError('');
             }
         } catch (error) {
-            setError('Error loading data');
+            console.error('Fetch data error:', error); // Afișează eroarea în consolă pentru debug
+            setError('Eroare la încărcarea datelor, încercați mai târziu');
         } finally {
-            setLoading(false);
+            setLoading(false); // Oprește încărcarea, indiferent de succes sau eroare
         }
     };
-
+    
     const submitHandler = async (event) => {
         event.preventDefault();
         setError('');
@@ -46,19 +51,19 @@ export function AdvancedSearch() {
         const forbiddenSymbolsRegex = /<[^>]*>|<\/[^>]*>/;
 
         if (!value || value.trim().length === 0) {
-            setError('Please enter a valid word');
+            setError('Vă rugăm să introduceți un cuvânt valid');
             setLoading(false);
             setSearchResults([]);
             return;
         }
         if (value.length > 5000) {
-            setError('Input length exceeds maximum allowed length');
+            setError('Lungimea de intrare depășește lungimea maximă permisă');
             setLoading(false);
             setSearchResults([]);
             return;
         }
         if (forbiddenSymbolsRegex.test(value)) {
-            setError('Input contains forbidden symbols');
+            setError('Intrarea conține simboluri interzise');
             setLoading(false);
             setSearchResults([]);
             return;
@@ -78,30 +83,28 @@ export function AdvancedSearch() {
                 handleSearch(SearchCharFunction);
                 break;
             default:
-                setError('The query type you selected is not available');
+                setError('Tipul de interogare pe care l-ați selectat nu este disponibil');
                 setSearchResults([]);
                 setLoading(false);
-            break;
+                break;
         }
     };
-
     const handleOptionChange = (newOption) => {
         setOption(newOption);
         setSearchResults([]);
-    }; 
-
+    };
     return (
         <div className="w-ful mt-6 py-6 relative">
             <p className="text-white font-roboto py-1 font-light">
                 Căutare avansată
             </p>
             <form 
-                className="flex flex-col justify-left w-full gap-4"
+                className="flex flex-col justify-left w-full gap-4 max-w-[420px]"
                 onSubmit={submitHandler}
             >
                 <input
                     type="text"
-                    className="w-full sm:w-[420px] h-8 pl-1 rounded outline-0 focus:ring-2 focus:ring-[#7e33ff88] font-roboto"
+                    className="w-full sm:w-[420px] h-8 pl-1 placeholder:text-gray-400 placeholder:font-light focus:placeholder:text-gray-300 border sm:text-sm rounded focus:outline-none bg-transparent border-white placeholder-gray-400 text-white focus:ring-[#7d33ff] focus:border-[#7d33ff] font-roboto"
                     value={value}
                     placeholder="Introdu cuvântul..."
                     onChange={event => setValue(event.target.value)}
@@ -134,8 +137,9 @@ export function AdvancedSearch() {
                 >
                     Caută
                 </button>
-              
+                <div className="w-full">
                 <ErrorMsg error={error} />
+                </div>
             </form>
 
             {loading && <p>Loading...</p>}

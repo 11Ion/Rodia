@@ -17,26 +17,24 @@ export function SearchTagAdvanced(){
         event.preventDefault();
         setError('');
         setLoading(true);
-
         const forbiddenSymbolsRegex = /<[^>]*>|<\/[^>]*>/;
-
         if (!value || value.trim().length === 0) {
-            setError('Please enter a valid word');
+            setError('Vă rugăm să introduceți un cuvânt valid');
             setLoading(false);
             return;
         }
         if (value.length > 5000) {
-            setError('Input length exceeds maximum allowed length');
+            setError('Lungimea de intrare depășește lungimea maximă permisă');
             setLoading(false);
             return;
         }
         if (forbiddenSymbolsRegex.test(value)) {
-            setError('Input contains forbidden symbols');
+            setError('Intrarea conține simboluri interzise');
             setLoading(false);
             return;
         }
         try{
-            const LoadData = UploadData();
+            const LoadData = await UploadData();
             const response = []; 
 
             LoadData.forEach(data => {
@@ -46,11 +44,11 @@ export function SearchTagAdvanced(){
             
             setSearchResults(response);
             if(response.length === 0){
-                setError('Not found');
+                setError('Nu au fost găsite rezultate');
             }
     
         } catch(error){
-            setError('Error loading data');
+            setError('Eroare la încărcarea datelor, încercați mai tarziu');
         } finally {
             setLoading(false);
         }
@@ -68,10 +66,10 @@ export function SearchTagAdvanced(){
     return(
         <div className="w-ful mt-6 py-6 relative">
                <p className="text-white font-roboto py-1 font-light">
-                Căutare simplă
+                Căutare avansată
                 </p>
             <form 
-                className="flex flex-col gap-4 justify-between max-w-[400px] s:flex-row"
+                className="flex flex-col gap-4 justify-between max-w-[420px] "
                 onSubmit={submitHandler}
             >
                 <div className="flex flex-row gap-2 flex-wrap justify-start max-w-[420px]">
@@ -119,7 +117,7 @@ export function SearchTagAdvanced(){
                     <div className="mt-2 flex flex-wrap">
                         <p className="text-white font-roboto py-1 font-light w-full">Introdu cuvântul căutat </p>
                         <input 
-                            className="w-full h-8 pl-1 rounded outline-0 focus:ring-2 focus:ring-[#7e33ff88] font-roboto"
+                            className="w-full h-8 pl-1 placeholder:text-gray-400 placeholder:font-light focus:placeholder:text-gray-300 border sm:text-sm rounded focus:outline-none bg-transparent border-white placeholder-gray-400 text-white focus:ring-[#7d33ff] focus:border-[#7d33ff] font-roboto"
                             type="text"
                             placeholder="Introdu cuvântul"
                             value={value}
@@ -133,10 +131,11 @@ export function SearchTagAdvanced(){
                     </button>
                     </div>
                 </div>
+                <div className="w-full max-w-[375px]">
+                <ErrorMsg error={error} />
+             </div>
             </form>
-            <div className="mt-4">
-            <ErrorMsg error={error} />
-            </div>
+          
                 {loading && <p>Loading...</p>}
                 {searchResults.length > 0 && (
                 <>

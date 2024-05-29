@@ -6,7 +6,6 @@ import closeBtn from "../../img/close.svg";
 
 export function BasicSearchResult({ searchResults }) {
 
-
     const searchTerm = searchResults[0].searchTerm;
 
     const [viewDiagram, setViewDiagram] = useState(false);
